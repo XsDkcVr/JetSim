@@ -1,0 +1,3 @@
+# Ignore ROOT files
+!.gitignore
+*.root
