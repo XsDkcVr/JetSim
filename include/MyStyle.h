@@ -1,6 +1,8 @@
 #pragma once
 
 #include <TStyle.h>
+#include <TROOT.h>
+#include <TAxis.h>
 
 class MyStyle
 {
@@ -31,7 +33,8 @@ public:
         style->SetTitleYOffset(2.);
         style->SetTitleSize(0.04, "xy");
         style->SetOptTitle(0);
-        //style->SetTitleAlign(12);
+        style->SetTitleAlign(22);
+        
     }
 
     std::string GetStyleName() {return styleName;}
