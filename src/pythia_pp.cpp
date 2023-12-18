@@ -1,16 +1,3 @@
-// main54.cc is a part of the PYTHIA event generator.
-// Copyright (C) 2023 Torbjorn Sjostrand.
-// PYTHIA is licenced under the GNU GPL v2 or later, see COPYING for details.
-// Please respect the MCnet Guidelines, see GUIDELINES for details.
-
-// Authors: Juan Rojo <authors@pythia.org>.
-
-// Keywords: parton distribution; LHAPDF;
-
-// This program compares the internal and LHAPDF implementations of the
-// NNPDF 2.3 QCD+QED sets, for results and for timing.
-// Warning: this example is constructed to work for LHAPDF5.
-// There seem to be differences when instead comparing with LHAPDF6.
 #include "cstdlib"
 #include <ctime>
 #include <iostream>
@@ -42,9 +29,6 @@ int main(int argc, char *argv[])
     // Generator
     Pythia8::Pythia pythia;
     pythia.readFile(settingsFile);
-    //pythia.readString("Random:setSeed = on");
-    //pythia.readString("Random:Seed = " + seed);
-    //pythia.readString("Parallelism:numThreads = 4");
     TFile outputTFile(rootOutputFile.c_str(), "RECREATE");
 
     Float_t px, py, pz, E, sigma_tot;
@@ -114,14 +98,10 @@ int main(int argc, char *argv[])
         {
             auto particle = pythia.event[i];
 
-            //if (fabs(particle.eta() > rapidity_cut))
-            //    continue;
-
             if (particle.isHadron() && particle.isFinal())
                 hadrons.push_back(fastjet::PseudoJet(particle.px(), particle.py(), particle.pz(), particle.e()));
         }
         fastjet::ClusterSequence cs(hadrons, jet_def);
-        //std::vector<fastjet::PseudoJet> jets = fastjet::sorted_by_pt(cs.inclusive_jets());
         std::vector<fastjet::PseudoJet> jets = select_both(cs.inclusive_jets());
         for(const auto& jet : jets)
         {
@@ -131,7 +111,6 @@ int main(int argc, char *argv[])
             E = jet.E();
             iType = 2;
             tr.Fill();
-            //std::cout << sqrt(px*px + py*py) << "  " << jet.rapidity() << '\n';
         }
 
         // Get cross-section over all processes (hopefully only hard 2->2)
